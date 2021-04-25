@@ -5,8 +5,6 @@ import time
 
 pygame.init()
 
-clock = pygame.time.Clock()
-
 # Colors for drawings
 BACKGROUND = '0xfa4454'
 BARS = '0x364966'
@@ -18,6 +16,11 @@ SCREEN_SIZE = WIDTH, HEIGHT = 600, 600
 
 # Setting the display size to WIDTH | HEIGHT.
 SCREEN = pygame.display.set_mode(SCREEN_SIZE)
+
+clock = pygame.time.Clock()
+
+# Works with the pygame clock object to control algo speed
+SPEED = 120
 
 # A list of unsorted numbers from 1 to 600.
 def randomize():
@@ -67,7 +70,7 @@ def bubble_sort(nums):
         for j in range(len(nums)-1-i):
             if nums[j] > nums[j+1]:
                 nums[j], nums[j+1] = nums[j+1], nums[j]
-        clock.tick(120)
+        clock.tick(SPEED)
         draw_bars(nums, nums[j], nums[j+1])
 
 
@@ -88,7 +91,7 @@ def selection_sort(nums):
                 min = j
 
         nums[i], nums[min] = nums[min], nums[i]
-        clock.tick(120)
+        clock.tick(SPEED)
         draw_bars(nums, nums[i], nums[min])
 
 
@@ -111,7 +114,7 @@ def insertion_sort(nums):
             nums[j + 1] = nums[j]
             j -= 1
         nums[j + 1] = temp
-        clock.tick(120)
+        clock.tick(SPEED)
         draw_bars(nums, temp, nums[i])
          
 
