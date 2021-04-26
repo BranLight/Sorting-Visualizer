@@ -6,8 +6,8 @@ import time
 pygame.init()
 
 # Colors for drawings
-BACKGROUND = '0xfa4454'
-BARS = '0x364966'
+BACKGROUND = '0xFAF9F6'
+BARS = '0x3b444b'
 GREEN = '0x00ff00'
 RED = '0xff0000'
 
@@ -157,6 +157,7 @@ def merge(left, right):
             nums[offset] = right[j]
             offset += 1
             j += 1
+        clock.tick(SPEED)
         draw_bars(nums, left[i-1], right[j-1])
 
     ret_list += left[i:]
@@ -165,6 +166,7 @@ def merge(left, right):
     nums[offset:offset+len(left[i:])] = left[i:]
     nums[offset:offset+len(right[j:])] = right[j:]
 
+    clock.tick(SPEED)
     draw_bars(nums)
 
     return ret_list
