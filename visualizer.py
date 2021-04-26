@@ -116,11 +116,66 @@ def insertion_sort(nums):
         nums[j + 1] = temp
         clock.tick(SPEED)
         draw_bars(nums, temp, nums[i])
+
+
+def merge_sort(n):
+    """
+    The Merge Sort Algorithm.
+
+    This merge sort solution uses recursion to break down the input list by reducing it into smaller and smaller 
+    sub-lists. Once the sub-lists contain only single values from the original list the merge function 
+    sorts and combines the smaller sub-lists, working backwards up the recursion tree until a single, sorted
+    list remains. 
+    """
+
+    start, end = 1, len(n)
+
+    if start < end:
+        middle = start + (end - start)//2
+        left = merge_sort(n[:middle])
+        right = merge_sort(n[middle:])
+
+    else:
+        return n
+    
+    return merge(left, right)
+
+
+def merge(left, right):
+    ret_list = []
+    i, j = 0, 0
+    offset = nums.index(left[0])
+
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            ret_list.append(left[i])
+            nums[offset] = left[i]
+            offset += 1
+            i += 1
+        else:
+            ret_list.append(right[j])
+            nums[offset] = right[j]
+            offset += 1
+            j += 1
+        draw_bars(nums, left[i-1], right[j-1])
+
+    ret_list += left[i:]
+    ret_list += right[j:]
+
+    nums[offset:offset+len(left[i:])] = left[i:]
+    nums[offset:offset+len(right[j:])] = right[j:]
+
+    draw_bars(nums)
+
+    return ret_list
          
 
-def main(nums):
+def main():
+    # I know it's heresy to use global variables... I KNOW.
+    # ... But it was the simplest way to get this working.
+    global nums
 
-    algos = {'Bubble Sort': bubble_sort, 'Selection Sort': selection_sort, 'Insertion Sort': insertion_sort}
+    algos = {'Bubble Sort': bubble_sort, 'Selection Sort': selection_sort, 'Insertion Sort': insertion_sort, 'Merge Sort': merge_sort}
     
     for name, func in algos.items():
         pygame.display.set_caption(name)
@@ -132,4 +187,4 @@ def main(nums):
 
 
 if __name__ == "__main__":
-    main(nums)
+    main()
