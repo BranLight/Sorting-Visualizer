@@ -20,7 +20,7 @@ SCREEN = pygame.display.set_mode(SCREEN_SIZE)
 clock = pygame.time.Clock()
 
 # Works with the pygame clock object to control algo speed
-SPEED = 120
+SPEED = 300
 
 # A list of unsorted numbers from 1 to 600.
 def randomize():
@@ -170,14 +170,54 @@ def merge(left, right):
     draw_bars(nums)
 
     return ret_list
-         
+
+    
+def quick_sort(nums, low=0, high=len(nums)-1):
+    """
+    The Quick Sort Algorithm.
+
+    Quick sort works by selecting a pivot, moving that value to the end of the list and swapping until
+    all values on the left side of the pivot are smaller and all values on the right side of the
+    pivot are bigger. To accomplish this we must find two values, one from the left that is larger
+    than the pivot and one value from the right that is smaller than the pivot. Once these two values are found we swap
+    them. Continue to do this until the smallest and largest values are already in sorted order. Swap the last 
+    largest value with your pivot. This now ensures that all items to the left of the pivot are smaller and all 
+    items to the right of the pivot are larger. This process will continue recursively with both the left
+    and right sides of the current pivot until the list is sorted.
+    """
+
+    if len(nums) == 1:
+        return nums
+    if low < high:
+        pi = partition(nums, low, high)
+
+        quick_sort(nums, low, pi-1)
+        quick_sort(nums, pi+1, high)
+
+
+def partition(nums, low, high):
+    i = (low-1)
+    pivot = nums[high]
+
+    for j in range(low, high):
+        if nums[j] <= pivot:
+            i = i+1
+            nums[i], nums[j] = nums[j], nums[i]
+            clock.tick(SPEED)
+            draw_bars(nums, nums[i], nums[j])
+        
+    nums[i + 1], nums[high] = nums[high], nums[i + 1]
+    clock.tick(SPEED)
+    draw_bars(nums, nums[i + 1], nums[high])
+    return (i + 1)
+        
 
 def main():
     # I know it's heresy to use global variables... I KNOW.
     # ... But it was the simplest way to get this working.
     global nums
 
-    algos = {'Bubble Sort': bubble_sort, 'Selection Sort': selection_sort, 'Insertion Sort': insertion_sort, 'Merge Sort': merge_sort}
+    algos = {'Bubble Sort': bubble_sort, 'Selection Sort': selection_sort, 'Insertion Sort': insertion_sort, 'Merge Sort': merge_sort, 'Quick Sort': quick_sort}
     
     for name, func in algos.items():
         pygame.display.set_caption(name)
